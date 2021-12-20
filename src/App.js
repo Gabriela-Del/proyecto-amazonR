@@ -18,12 +18,21 @@ class App extends React.Component {
         {id:4, rating: 5, title: 'Sobrenatural', image: 'libro05.jpg'},
       ]
     };
+  } 
+
+  onAdd =(item)=>{
+    let temp = [...this.state.books];
+    const id= temp[temp.length -1].id ++;
+    item['id'] = id;
+    temp.push(item);
+
+    this.setState({books: [...temp]});
   }
 
   render(){
     return (
       <div className="App">
-        <Menu title="Amazon"/>
+        <Menu title="Amazon" onadd={this.onAdd}/>
         <List items={this.state.books}/>
       </div>
     );
