@@ -17,6 +17,15 @@ class Item extends React.Component {
         })
     }
 
+    onChangeRating = e =>{
+        const rating =parseInt(e.target.value);
+
+        this.setState({
+            rating: parseInt(e.target.value),
+            starts: Array(parseInt(e.target.value)).fill(0)
+        });
+    }
+
     render(){
 
         return (
@@ -32,7 +41,7 @@ class Item extends React.Component {
                     }
                     </p>
                     Calificación: 
-                    <select className='sel' value={this.props.rating}>
+                    <select className='sel' value={this.props.rating} onChange={this.onChangeRating}>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

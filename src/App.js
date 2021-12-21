@@ -16,9 +16,21 @@ class App extends React.Component {
         {id:2, rating: 4, title: 'Codigo Da Vinci', image: 'libro03.jpg'},
         {id:3, rating: 4, title: 'El principito', image: 'libro04.jpg'},
         {id:4, rating: 5, title: 'Sobrenatural', image: 'libro05.jpg'},
-      ]
+      ],
+
+      copyBooks: []
     };
   } 
+
+  componentDidMount(){
+    this.initBooks();
+  }
+
+  initBooks = () =>{
+    this.setState((state, props) => ({
+      copyBooks : [...this.state.books]   
+    }));
+  }
 
   onAdd =(item)=>{
     let temp = [...this.state.books];
@@ -27,13 +39,31 @@ class App extends React.Component {
     temp.push(item);
 
     this.setState({books: [...temp]});
+    this.initBooks();
+  }
+
+  onSearch = (query) =>{
+    if(query=== ''){
+      this.initBooks();
+    }
+    else {
+      const temp = [...this.state.books];
+      let res = [];
+
+      temp.forEach(item =>{
+        if(item.title.toLowerCase().indexOf(query) > -1){
+          res.push(item);
+        }
+      });
+      this.setState({copyBooks: [...res]});
+    }
   }
 
   render(){
     return (
       <div className="App">
-        <Menu title="Amazon" onadd={this.onAdd}/>
-        <List items={this.state.books}/>
+        <Menu title="Amazon" onadd={this.onAdd} onsearch={this.onSearch}/>
+        <List items={this.state.copyBooks}/>
       </div>
     );
   }
