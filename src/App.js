@@ -34,7 +34,7 @@ class App extends React.Component {
 
   onAdd =(item)=>{
     let temp = [...this.state.books];
-    const id= temp[temp.length -1].id ++;
+    const id= temp[temp.length -1].id +1;
     item['id'] = id;
     temp.push(item);
 
@@ -59,11 +59,34 @@ class App extends React.Component {
     }
   }
 
+  onUpdateRating=(item)=>{
+    var temp= [...this.state.books];
+    const index = temp.findIndex(x => x.id === item.id);
+
+    temp[index].title = item.title;
+    temp[index].image = item.image;
+    temp[index].rating = item.rating;
+
+    this.setState({books: [...temp]});
+    this.initBooks();
+  }
+
+  onRemove= (id)=>{
+    var temp = [...this.state.books];
+    const res = temp.filter(item => item.id != id); 
+
+    this.setState({books: [...res]});
+    this.initBooks();
+  }
+
   render(){
     return (
       <div className="App">
         <Menu title="Amazon" onadd={this.onAdd} onsearch={this.onSearch}/>
-        <List items={this.state.copyBooks}/>
+        <List
+          items={this.state.copyBooks} 
+          onupdaterating={this.onUpdateRating}
+          onremove={this.onRemove}/>
       </div>
     );
   }
